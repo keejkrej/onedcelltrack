@@ -12,3 +12,4 @@ test_drafts
 **egg-info/
 build/
 drafts/
+!pipeline_summary.png
