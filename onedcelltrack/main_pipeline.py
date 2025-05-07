@@ -500,7 +500,7 @@ class Pipeline:
         df = tracking.track_nuclei(nuclei, diameter=self.diameter, minmass=self.min_mass, track_memory=self.track_memory, max_travel=self.max_travel, min_frames=self.min_frames, verbose=False, logger=self.logger)
         # Save the df
         dfpath = os.path.join(self.path_out, f'XY{fov}/tracking_data.csv')
-        df.to_csv(dfpath)
+        df.to_csv(dfpath, index=False)
         
         return
     
@@ -541,7 +541,7 @@ class Pipeline:
         df = tracking.merge_tracking_data(df, cyto_masks, lanes_mask, lanes_metric, patterns=lanes_image, tres=self.tres, min_duration=self.min_duration, verbose=verbose, logger=self.logger)
         #now save the file
         dfpath = os.path.join(self.path_out, f'XY{fov}/tracking_data.csv')
-        df.to_csv(dfpath)
+        df.to_csv(dfpath, index=False)
         return
 
     def filter_tracking_data(self, fov):
@@ -556,7 +556,7 @@ class Pipeline:
         
         dfpath = os.path.join(self.path_out, f'XY{fov}/clean_tracking_data.csv')
 
-        df.to_csv(dfpath)
+        df.to_csv(dfpath, index=False)
 
         return
 
@@ -577,7 +577,7 @@ class Pipeline:
         df = tracking.classify_tracks(df, tres=self.tres, coarsen=coarsen, sm=sm, pixelperum=self.pixelperum, min_velocity=self.min_velocity, min_o=self.min_o, min_length=min_length)
         # Save the df
         dfpath = os.path.join(self.path_out, f'XY{fov}/clean_tracking_data.csv')
-        df.to_csv(dfpath)
+        df.to_csv(dfpath, index=False)
 
         return
 
@@ -639,8 +639,8 @@ class Pipeline:
         Convert clean tracking data and add columns with nucleus, rear v_nuc, v_rear, v_front, length, area, x, y converted into um.
         New columns are named nucleus_um, etc. and appended to df.
         """
-        pathtodf = os.path.join(self.path_out, f'XY{fov}/clean_tracking_data.csv')
-        df = pd.read_csv(pathtodf)
+        dfpath = os.path.join(self.path_out, f'XY{fov}/clean_tracking_data.csv')
+        df = pd.read_csv(dfpath)
         # df.nucleus = df.nucleus/self.pixelperum
         # df.rear = df.rear/self.pixelperum
         # df.front = df.front/self.pixelperum
@@ -663,7 +663,7 @@ class Pipeline:
         df.insert(len(df.columns), 'x_um', df.x/self.pixelperum)
         df.insert(len(df.columns), 'y_um', df.y/self.pixelperum)
 
-        df.to_csv(pathtodf)
+        df.to_csv(dfpath, index=False)
         return
     
     def check_for_mergin_data(self, fov):

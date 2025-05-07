@@ -1,4 +1,5 @@
 import numpy as np
+np.bool = bool
 import pandas as pd
 from . import tools
 import sys
