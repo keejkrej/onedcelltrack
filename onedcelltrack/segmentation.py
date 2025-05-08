@@ -36,9 +36,10 @@ class Segmentation:
         """
 
         if omni:
-            from cellpose_omni.models import CellposeModel
-            self.model = CellposeModel(
-            gpu=gpu, omni=True, nclasses=4, nchan=2, pretrained_model=pretrained_model)
+            pass
+            #from cellpose_omni.models import CellposeModel
+            #self.model = CellposeModel(
+            #gpu=gpu, omni=True, nclasses=4, nchan=2, pretrained_model=pretrained_model)
             return
 
         elif pretrained_model is None:
@@ -66,9 +67,10 @@ class Segmentation:
                 
                 self.model = models.CellposeModel(gpu=gpu, pretrained_model=pretrained_model)
             else:
-                from cellpose_omni.models import CellposeModel
-                self.model = CellposeModel(
-                gpu=gpu, omni=True, nclasses=4, nchan=2, pretrained_model=pretrained_model)
+                pass
+                #from cellpose_omni.models import CellposeModel
+                #self.model = CellposeModel(
+                #gpu=gpu, omni=True, nclasses=4, nchan=2, pretrained_model=pretrained_model)
 
 
     def segment(self, brightfield, nucleus, channels=[1,2], diameter=None, flow_threshold=0.4, cellprob_threshold=0, verbose=True):

@@ -144,7 +144,7 @@ class SimulationsApp:
     
     def init_julia(self):
         print('init julia')
-        self.data = simulate()
+        self.data = self.simulate()
         return
         if self.julia_initialized:
             return

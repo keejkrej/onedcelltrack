@@ -4,7 +4,7 @@ Created on Fri Jan 21 09:32:32 2022
 
 @author: miguel.Atienza
 """
-from celltracker import stack
+from . import stack
 import numpy as np
 from tifffile import TiffFile, imwrite, imread
 import os

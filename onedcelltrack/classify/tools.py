@@ -7,7 +7,7 @@ import os
 from tqdm import tqdm
 #from astropy.convolution import Gaussian1DKernel, convolve
 from skimage.segmentation import find_boundaries
-
+from . import cp
 
 
 # def gsmooth(x, stddev=30):
@@ -38,7 +38,7 @@ def O(t, x, ws):
 def oscillation(x, period, min_period, sm=60):
     
     #x = smooth(x, min_period)
-    xf = smooth(x, period)
+    xf = cp.smooth(x, period)
     #n = np.abs(x-xf).mean()
     dp = np.clip(x-xf, a_min=0, a_max=None)
     dn = -np.clip(x-xf, a_min=None, a_max=0)
@@ -47,7 +47,7 @@ def oscillation(x, period, min_period, sm=60):
     ncorr = dn[period:]*dn[:-period]
 
     method=None
-    corr = smooth(pcorr, period, method=method)*smooth(ncorr, period, method=method)
+    corr = cp.smooth(pcorr, period, method=method)*cp.smooth(ncorr, period, method=method)
     #corr = pcorr[int(period/2):]*ncorr[:-int(period/2)]
     
 
@@ -118,6 +118,8 @@ def get_v_segments_from_arrays(frames, nucleus, coarsen, min_length, tres, pixel
         Lth (float, optional): _description_. Defaults to 0.98.
         sm (int, optional): Length of the smoothing filter. Defaults to 3.
     """
+    t = frames
+    t_0 = t[0]
     if not findcps:
         conv_kernel = np.ones(sm)/sm
         v= np.gradient(
@@ -126,7 +128,7 @@ def get_v_segments_from_arrays(frames, nucleus, coarsen, min_length, tres, pixel
         v /= (tres*pixelperum)
 
 
-    frame__0 = frame[0]
+    frame__0 = frames[0]
         
     coarse_frames = np.linspace(0, nucleus.size-1, round(nucleus.size/coarsen)).astype(int)
       
@@ -207,6 +209,6 @@ def get_v_segments_from_df(dfp, coarsen, min_length, tres, pixelperum, Lth=0.98,
 
 def get_average_vs(df, coarsen, min_length, tres, pixelperum, sm):
 
-    ids = np.unique(dfv.particle.unique())
+    ids = np.unique(df.particle.unique())
     ids.sort()
     

@@ -161,7 +161,7 @@ def find_cps_2(dfp, TimeRes, Nperm, Lth=0.98):
         intend=CPs[maxintwithnoPC+1]
         vseg=vnuc[intstart:intend]
         meanvseg=vseg.mean()
-        S_0=cp.S(vseg)
+        S_0=S(vseg)
         Sdiff0=S_0.max()-S_0.min();
         Sdiff=[]
         
@@ -368,7 +368,7 @@ def get_cps(dfp, TimeRes, Nperm, Lth=0.98):
         intend=CPs[maxintwithnoPC+1]
         vseg=vnuc[intstart:intend]
         meanvseg=vseg.mean()
-        S_0=cp.S(vseg)
+        S_0=S(vseg)
         Sdiff0=S_0.max()-S_0.min();
         Sdiff=[]
         
@@ -378,7 +378,7 @@ def get_cps(dfp, TimeRes, Nperm, Lth=0.98):
         for i in range(Nperm):
             np.random.shuffle(X_boot[i])    
     
-        S_boot = cp.S(X_boot, axis=1)
+        S_boot = S(X_boot, axis=1)
     
         Sdiff = np.max(S_boot, axis=1) - np.min(S_boot, axis=1)
         
