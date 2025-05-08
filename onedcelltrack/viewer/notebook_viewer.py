@@ -190,6 +190,10 @@ class Viewer(Pipeline):
         self.fig.canvas.header_visible = False
         self.fig.canvas.footer_visible = False
         self.fig.canvas.toolbar_visible = True
+        # figure container
+        self.fig_container = widgets.Output()
+        with self.fig_container:
+            display(self.fig.canvas)
 
         self.fig.tight_layout()
         self.ax = self.fig.add_subplot(111)
@@ -222,7 +226,7 @@ class Viewer(Pipeline):
         buttons = widgets.VBox([self.button_delete_fov, self.button_exchange_channels, self.button_save, self.select_channel, self.button_cut_left, self.button_cut_right, self.select_tres, self.lanes_alpha, self.position_status, self.select_pixelperum, self.position_status])
         
         # box for the sliders and figure
-        right_box = widgets.VBox([self.fig.canvas, slider_box])
+        right_box = widgets.VBox([self.fig_container, slider_box])
         # box for the buttons and the sliders and figure
         self.window = widgets.HBox([buttons, right_box])
         self.update(self.fov.value, self.clip.value, self.frame.value)
@@ -506,7 +510,7 @@ class LaneViewer(Viewer):
         self.lanes = self.get_lanes()
         out = widgets.interactive_output(self.update, {'fov': self.fov, 'clip': self.clip})
         # image box
-        image_box= widgets.VBox([self.fig.canvas, self.fov, self.clip])#,  layout=widgets.Layout(width=str(self.fig.get_size_inches()[0]*self.fig.dpi)))
+        image_box= widgets.VBox([self.fig_container, self.fov, self.clip])#,  layout=widgets.Layout(width=str(self.fig.get_size_inches()[0]*self.fig.dpi)))
         ## Override the window
         self.window = widgets.HBox([widgets.HBox([lane_detection_sliders, image_box])])
         self.recompute(self.fov.value)
@@ -582,7 +586,7 @@ class TrackingViewer(Viewer):
         tracking_sliders = widgets.VBox([self.min_mass_slider, self.diameter_slider, self.min_frames_slider, self.max_travel_slider, self.track_memory_slider, self.track_button, self.button_save, self.position_status])
 
         # box for the image
-        image_box = widgets.VBox([self.fig.canvas, self.fov, self.clip, self.frame], layout=widgets.Layout(width=str(self.fig.get_size_inches()[0]*self.fig.dpi)))
+        image_box = widgets.VBox([self.fig_container, self.fov, self.clip, self.frame], layout=widgets.Layout(width=str(self.fig.get_size_inches()[0]*self.fig.dpi)))
         
         # box for the sliders and figure
         self.window = widgets.HBox([tracking_sliders, image_box])
@@ -694,7 +698,7 @@ class CellposeViewer(Viewer):
         cellpose_sliders = widgets.VBox([self.flow_threshold_slider, self.diameter_slider, self.cellprob_threshold_slider, self.button_save, self.position_status])
         self.fig.canvas.draw()
         # box for the image
-        image_box = widgets.VBox([self.fig.canvas, self.fov, self.clip, self.frame], layout=widgets.Layout(width=str(self.fig.get_size_inches()[0]*self.fig.dpi)))
+        image_box = widgets.VBox([self.fig_container, self.fov, self.clip, self.frame], layout=widgets.Layout(width=str(self.fig.get_size_inches()[0]*self.fig.dpi)))
 
         # box for the sliders and figure
         self.window = widgets.HBox([cellpose_sliders, image_box])
