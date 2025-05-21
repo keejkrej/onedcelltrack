@@ -905,6 +905,7 @@ class ResultsViewer:
         
         self.grid = widgets.HBox([self.left_box, fig1, fig2])
         self.update(None)
+        display(self.grid)
 
     def update(self, change, t=None, c=None, v=None, clip=None):
 
@@ -936,7 +937,7 @@ class ResultsViewer:
         self.update_image(t, v, clip)
         
         self.im.set_data(self.image)
-        self.tmarker.set_xdata(t)
+        # self.tmarker.set_xdata(t)
         
         self.oldv=v
         
