@@ -1072,9 +1072,15 @@ class ResultsViewer:
 
     def load_masks(self, outpath, fov):
         
-        path_to_mask = os.path.join(outpath, f'XY{fov}/cyto_masks.mp4')
+        path_to_mask_mp4 = os.path.join(outpath, f'XY{fov}/cyto_masks.mp4')
+        path_to_mask_npz = os.path.join(outpath, f'XY{fov}/cyto_masks.npz')
         
-        self.masks = functions.mp4_to_np(path_to_mask)
+        if os.path.isfile(path_to_mask_mp4):
+            self.masks = functions.mp4_to_np(path_to_mask_mp4)
+        elif os.path.isfile(path_to_mask_npz):
+            self.masks = np.load(path_to_mask_npz)['arr_0']
+        else:
+            raise FileNotFoundError(f'No mask file found for {fov}')
         
         return      
         
